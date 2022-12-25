@@ -1,0 +1,27 @@
+{
+  "name": "waxwink/orbis",
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "autoload": {
+    "psr-4": {
+      "Waxwink\\Orbis\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Waxwink\\Orbis\\Tests\\": "tests/"
+    }
+  },
+  "require-dev": {
+    "roave/security-advisories": "dev-latest",
+    "symfony/var-dumper": "^6.0",
+    "phpunit/phpunit": "^9.5",
+    "friendsofphp/php-cs-fixer": "^3.13"
+  },
+  "require": {
+    "psr/container": "^2.0",
+    "psr/event-dispatcher": "^1.0",
+    "psr/http-message": "^1.0",
+    "monolog/monolog": "^3.2"
+  }
+}
