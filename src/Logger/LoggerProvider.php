@@ -19,10 +19,6 @@ class LoggerProvider implements Bootable
 
     public function boot(): void
     {
-        if ($this->configuration->getEnv() === 'test') {
-            return;
-        }
-
         $path = $this->configuration->get("app.log.path") ?? $this->configuration->getBasePath() . "/var/logs/";
         $path .= "/logs.log";
         $logger = new Logger('storage');
