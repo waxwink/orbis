@@ -2,8 +2,8 @@
 
 namespace Waxwink\Orbis\EventDispatcher;
 
-use App\Core\Contracts\Bootable;
-use App\Core\Contracts\ContainerInterface;
+use Waxwink\Orbis\Contracts\Bootable;
+use Waxwink\Orbis\Contracts\ContainerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface as PsrEventDispatcherInterface;
 
 class EventDispatcherProvider implements Bootable

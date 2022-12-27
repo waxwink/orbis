@@ -3,7 +3,6 @@
 namespace Waxwink\Orbis\EventDispatcher;
 
 use Psr\Container\ContainerInterface;
-use Psr\EventDispatcher\EventDispatcherInterface;
 
 class EventDispatcher implements EventDispatcherInterface
 {
