@@ -62,9 +62,9 @@ class KernelManager
         return $this->kernels[$mode];
     }
 
-    public function resolveExceptionHandler(string $mode, $debug): ExceptionHandlerInterface
+    public function resolveExceptionHandler(string $mode): string
     {
-        return new $this->exceptionHandlers[$mode]($debug);
+        return $this->exceptionHandlers[$mode];
     }
 
     public function addKernels($mode, $kernelClass): KernelManager

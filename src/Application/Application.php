@@ -14,16 +14,10 @@ class Application
 
     protected string $env = 'dev';
 
-    protected bool $debug = false;
-
     public function __construct(...$arguments)
     {
         if (array_key_exists('env', $arguments)) {
             $this->env = (string)$arguments['env'];
-        }
-
-        if (array_key_exists('debug', $arguments)) {
-            $this->debug = (string)$arguments['debug'];
         }
 
         $this->container = array_key_exists('container', $arguments) ?
@@ -45,7 +39,13 @@ class Application
                 $this->kernelManager->getKernel($mode)
             ));
         } catch (\Throwable $throwable) {
-            $this->kernelManager->resolveExceptionHandler($mode, $this->debug)->handle($throwable);
+            try {
+                $this->container->get(
+                    $this->kernelManager->resolveExceptionHandler($mode)
+                )->handle($throwable);
+            } catch (\Throwable $e) {
+                echo $throwable->getMessage()." ". $e->getMessage();
+            }
         }
     }
 
