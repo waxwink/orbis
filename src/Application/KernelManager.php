@@ -11,7 +11,7 @@ class KernelManager
         //
     ];
 
-    private $baseProviders = [
+    protected $baseProviders = [
         //
     ];
 
@@ -98,5 +98,11 @@ class KernelManager
     protected function appendToProperty(string $key, array $value): void
     {
         $this->$key = array_merge($value);
+    }
+
+    protected function setBaseProviders(array $baseProviders): KernelManager
+    {
+        $this->baseProviders = $baseProviders;
+        return $this;
     }
 }

@@ -1,6 +1,10 @@
 <?php
 
+namespace Waxwink\Orbis\Tests\Application;
+
+use Exception;
 use PHPUnit\Framework\TestCase;
+use Throwable;
 use Waxwink\Orbis\Application\Application;
 
 class ApplicationTest extends TestCase
