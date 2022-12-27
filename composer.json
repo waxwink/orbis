@@ -3,14 +3,14 @@
   "minimum-stability": "dev",
   "prefer-stable": true,
   "autoload": {
+    "files": [
+      "src/Support/helpers.php"
+    ],
     "psr-4": {
       "Waxwink\\Orbis\\": "src/"
     }
   },
   "autoload-dev": {
-    "files": [
-      "src/Support/helpers.php"
-    ],
     "psr-4": {
       "Waxwink\\Orbis\\Tests\\": "tests/"
     }

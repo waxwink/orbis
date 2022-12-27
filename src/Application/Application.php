@@ -44,7 +44,7 @@ class Application
                     $this->kernelManager->resolveExceptionHandler($mode)
                 )->handle($throwable);
             } catch (\Throwable $e) {
-                echo $throwable->getMessage()." ". $e->getMessage();
+                echo $throwable->getMessage();
             }
         }
     }
