@@ -6,12 +6,15 @@ use Psr\Container\ContainerInterface;
 use Waxwink\Orbis\Configuration\ConfigurationInterface;
 use Waxwink\Orbis\Console\Command;
 use Waxwink\Orbis\Contracts\Bootable;
+use Waxwink\Orbis\Contracts\CommandContainerInterface;
 
 class ConsoleKernel implements Bootable
 {
-    protected $registered = [];
-
-    public function __construct(protected ContainerInterface $container, protected ConfigurationInterface $configuration)
+    public function __construct(
+        protected ContainerInterface $container,
+        protected ConfigurationInterface $configuration,
+        protected CommandContainerInterface $commandContainer
+    )
     {
     }
 
@@ -26,28 +29,28 @@ class ConsoleKernel implements Bootable
 
     public function resolveCommand(string $commandName): Command
     {
-        if (! array_key_exists($commandName, $this->registered)) {
+        if (! $this->commandContainer->has($commandName)) {
             throw new CommandException("$commandName is not registered as a command");
         }
 
-        return $this->container->get($this->registered[$commandName]);
+        return $this->container->get($this->commandContainer->get($commandName));
     }
 
     public function loadCommands()
     {
-        $commands= $this->configuration->get("console.commands");
+        $commands = $this->configuration->get("console.commands");
         if (!$commands) {
             return;
         }
 
         foreach ($commands as $command) {
-            $this->registered[$command::name()] = $command;
+            $this->commandContainer->register($command);
         }
     }
 
     public function getRegistered(): array
     {
-        return $this->registered;
+        return $this->commandContainer->getRegistered();
     }
 
     /**

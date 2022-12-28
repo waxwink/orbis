@@ -3,7 +3,9 @@
 namespace Waxwink\Orbis\Framework;
 
 use Waxwink\Orbis\Application\KernelManager;
+use Waxwink\Orbis\CommonCommands\CommonCommandsProvider;
 use Waxwink\Orbis\Configuration\ConfigurationProvider;
+use Waxwink\Orbis\Console\CommandContainerProvider;
 use Waxwink\Orbis\EventDispatcher\EventDispatcherProvider;
 use Waxwink\Orbis\Framework\Console\ConsoleKernel;
 use Waxwink\Orbis\Framework\Console\ExceptionHandler as ConsoleExceptionHandlerAlias;
@@ -30,5 +32,12 @@ class OrbisKernelManager extends KernelManager
     protected $exceptionHandlers = [
         'http' => HttpExceptionHandler::class,
         'console' => ConsoleExceptionHandlerAlias::class
+    ];
+
+    protected $modeProviders = [
+        'console' => [
+            CommandContainerProvider::class,
+            CommonCommandsProvider::class
+        ]
     ];
 }
