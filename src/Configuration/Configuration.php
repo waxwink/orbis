@@ -36,7 +36,9 @@ class Configuration implements ConfigurationInterface
     public function get(string $string)
     {
         $array = explode(".", $string);
-        return $this->searchInArray($array, $this->config) ??  $this->searchInConfigFile($array);
+        return $this->searchInArray($array, $this->config) ??
+            $this->searchInConfigFile($array) ??
+            $this->searchInArray(array_slice($array, 1), $this->config);
     }
 
     public function isDebug(): bool
