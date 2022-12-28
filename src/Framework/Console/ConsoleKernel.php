@@ -5,7 +5,6 @@ namespace Waxwink\Orbis\Framework\Console;
 use Psr\Container\ContainerInterface;
 use Waxwink\Orbis\Configuration\ConfigurationInterface;
 use Waxwink\Orbis\Console\Command;
-use Waxwink\Orbis\Console\CommandException;
 use Waxwink\Orbis\Contracts\Bootable;
 
 class ConsoleKernel implements Bootable
@@ -27,7 +26,7 @@ class ConsoleKernel implements Bootable
 
     public function resolveCommand(string $commandName): Command
     {
-        if (array_key_exists($commandName, $this->registered)) {
+        if (! array_key_exists($commandName, $this->registered)) {
             throw new CommandException("$commandName is not registered as a command");
         }
 
