@@ -44,7 +44,7 @@ class ApplicationTest extends TestCase
 
     public function testIfInputModeIsNotRegisteredThenModeNotFoundExceptionWouldBeThrown(): void
     {
-        $this->expectException(\Waxwink\Orbis\Application\ModeNotFoundException::class);
+        $this->expectOutputString("mock mode is not registered in the Kernel manager class");
         $app = new Application(
             exceptionHandlers: ["mock" => MockExceptionNotHandler::class],
         );
