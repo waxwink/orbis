@@ -10,7 +10,7 @@ interface ContainerInterface extends BaseContainerInterface
 
     public function loadServices(array $services);
 
-    public function call(string $controller, string $method): mixed;
+    public function call(string $class, string $method): mixed;
 
     public function all(): array;
 }

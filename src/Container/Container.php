@@ -2,6 +2,7 @@
 
 namespace Waxwink\Orbis\Container;
 
+use http\Exception\RuntimeException;
 use Waxwink\Orbis\Contracts\ContainerInterface;
 
 class Container implements ContainerInterface
@@ -11,6 +12,10 @@ class Container implements ContainerInterface
     public function get(string $id)
     {
         if (array_key_exists($id, $this->registered)) {
+            if (is_callable($this->registered[$id])) {
+                return $this->resolveFromCallable($this->registered[$id], $id);
+            }
+
             if (!is_string($this->registered[$id])) {
                 return $this->registered[$id];
             }
@@ -20,10 +25,8 @@ class Container implements ContainerInterface
 
         try {
             return $this->resolve($id);
-        } catch (ServiceNotFound $e) {
-            throw new ServiceNotFound("Unable to resolve the id of : $id. " . $e->getMessage());
-        } catch (\Exception|\Error $e) {
-            throw new ServiceNotFound("Unable to resolve the id of : $id. " . $e->getMessage());
+        } catch (\Throwable $e) {
+            throw new EntityNotFound("Unable to resolve the id of : $id. " . $e->getMessage());
         }
     }
 
@@ -41,19 +44,16 @@ class Container implements ContainerInterface
     }
 
 
+    /**
+     * @throws \ReflectionException
+     */
     private function resolve(string $id)
     {
-        $refClass = new \ReflectionClass($id);
-        $parameters = $refClass->getConstructor()?->getParameters();
+        $this->set($id, $entity = new $id(...$this->inputParameters(
+            (new \ReflectionClass($id))->getConstructor()?->getParameters()
+        )));
 
-        if (!$parameters) {
-            $this->set($id, new $id());
-        } else {
-            $this->set($id, new $id(...$this->inputParameters($parameters)));
-        }
-
-
-        return $this->registered[$id];
+        return $entity;
     }
 
 
@@ -62,9 +62,10 @@ class Container implements ContainerInterface
         if ($this->has($parameter->getName())) {
             return $this->get($parameter->getName());
         }
+
         $class = $parameter->getType()?->getName();
         if (!$class || in_array($class, ["bool", "string", "array", "mixed"])) {
-            throw new \Exception("Unable to resolve the parameter : " . $parameter->getName());
+            throw new RuntimeException("Unable to resolve the parameter : " . $parameter->getName());
         }
 
         return $this->get($class);
@@ -75,18 +76,24 @@ class Container implements ContainerInterface
         $this->registered = $services;
     }
 
-    public function call(string $controller, string $method): mixed
+    public function call(string $class, string $method): mixed
     {
-        $refClass = new \ReflectionClass($controller);
-        $parameters = $refClass->getMethod($method)?->getParameters();
-        $controller = $this->get($controller);
+        $parameters = (new \ReflectionClass($class))->getMethod($method)?->getParameters();
+        $entity = $this->get($class);
 
-        return $controller->$method(...$this->inputParameters($parameters));
+        if (!method_exists($entity, $method)) {
+            throw new \RuntimeException(sprintf('Class %s does not have method %s.', $class, $method));
+        }
+
+        return $entity->{$method}(...$this->inputParameters($parameters));
     }
 
 
-    private function inputParameters(array $parameters): array
+    private function inputParameters(?array $parameters): array
     {
+        if (!$parameters) {
+            return [];
+        }
         $inputParameters = [];
 
         foreach ($parameters as $parameter) {
@@ -98,5 +105,14 @@ class Container implements ContainerInterface
     public function set(string $id, $value): void
     {
         $this->registered[$id] = $value;
+    }
+
+    /**
+     * @throws \ReflectionException
+     */
+    private function resolveFromCallable(callable $callable, $id)
+    {
+        $this->set($id, $entity = $callable(...$this->inputParameters((new \ReflectionFunction($callable))->getParameters())));
+        return $entity;
     }
 }

@@ -97,7 +97,7 @@ class KernelManager
 
     protected function appendToProperty(string $key, array $value): void
     {
-        $this->$key = array_merge($value);
+        $this->$key = array_merge_recursive($this->$key, $value);
     }
 
     protected function setBaseProviders(array $baseProviders): KernelManager
