@@ -62,13 +62,16 @@ class Container implements ContainerInterface
         if ($this->has($parameter->getName())) {
             return $this->get($parameter->getName());
         }
-
         $class = $parameter->getType()?->getName();
-        if (!$class || in_array($class, ["bool", "string", "array", "mixed"])) {
-            throw new RuntimeException("Unable to resolve the parameter : " . $parameter->getName());
+        if ($class && !in_array($class, ["bool", "string", "array", "mixed", "int", "object", "callable"])) {
+            return $this->get($class);
         }
 
-        return $this->get($class);
+        if ($parameter->isDefaultValueAvailable()) {
+            return $parameter->getDefaultValue();
+        }
+
+        throw new \Exception("Unable to resolve the parameter : " . $parameter->getName());
     }
 
     public function loadServices(array $services)
