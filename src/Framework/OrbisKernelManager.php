@@ -6,12 +6,14 @@ use Waxwink\Orbis\Application\KernelManager;
 use Waxwink\Orbis\CommonCommands\CommonCommandsProvider;
 use Waxwink\Orbis\Configuration\ConfigurationProvider;
 use Waxwink\Orbis\Console\CommandContainerProvider;
+use Waxwink\Orbis\ControllerCaller\ControllerCallerProvider;
 use Waxwink\Orbis\EventDispatcher\EventDispatcherProvider;
 use Waxwink\Orbis\Framework\Console\ConsoleKernel;
 use Waxwink\Orbis\Framework\Console\ExceptionHandler as ConsoleExceptionHandlerAlias;
 use Waxwink\Orbis\Framework\Http\ExceptionHandler as HttpExceptionHandler;
 use Waxwink\Orbis\Framework\Http\HttpKernel;
 use Waxwink\Orbis\Logger\LoggerProvider;
+use Waxwink\Orbis\Router\RouterProvider;
 
 class OrbisKernelManager extends KernelManager
 {
@@ -26,7 +28,9 @@ class OrbisKernelManager extends KernelManager
     protected $baseProviders = [
         ConfigurationProvider::class,
         EventDispatcherProvider::class,
-        LoggerProvider::class
+        LoggerProvider::class,
+        RouterProvider::class,
+        ControllerCallerProvider::class
     ];
 
     protected $exceptionHandlers = [

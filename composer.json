@@ -29,6 +29,7 @@
     "monolog/monolog": "^3.2",
     "symfony/http-foundation": "^6.2",
     "psr/http-server-handler": "^1.0",
-    "league/climate": "^3.8"
+    "league/climate": "^3.8",
+    "symfony/routing": "^6.2"
   }
 }
