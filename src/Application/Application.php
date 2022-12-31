@@ -68,6 +68,8 @@ class Application
     {
         $this->container->set("app", $this);
         $this->container->set('config', $arguments);
+        $this->container->set(__CLASS__, $this);
+        $this->container->set(get_class($this), $this);
     }
 
     private function registerContainer(): void
@@ -80,6 +82,8 @@ class Application
     protected function registerKernelManager(): void
     {
         $this->container->set("kernel.manager", $this->kernelManager);
+        $this->container->set(KernelManager::class, $this->kernelManager);
+        $this->container->set(get_class($this->kernelManager), $this->kernelManager);
     }
 
     protected function loadProviders(array $providers): void
