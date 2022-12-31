@@ -4,7 +4,7 @@ namespace Waxwink\Orbis\Configuration;
 
 interface ConfigurationInterface
 {
-    public function get(string $string);
+    public function get(string $string, mixed $default = null): mixed;
 
     public function getEnv(): string;
 

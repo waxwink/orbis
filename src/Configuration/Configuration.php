@@ -33,7 +33,7 @@ class Configuration implements ConfigurationInterface
         return $this->env;
     }
 
-    public function get(string $string)
+    public function get(string $string, mixed $default = null): mixed
     {
         $array = explode(".", $string);
         return $this->searchInArray($array, $this->config) ??
