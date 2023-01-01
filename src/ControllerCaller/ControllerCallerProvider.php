@@ -2,7 +2,6 @@
 
 namespace Waxwink\Orbis\ControllerCaller;
 
-use App\Router\CallController;
 use Waxwink\Orbis\Contracts\Bootable;
 use Waxwink\Orbis\EventDispatcher\EventDispatcherInterface;
 use Waxwink\Orbis\Router\RouteResolved;
