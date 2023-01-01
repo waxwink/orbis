@@ -2,13 +2,14 @@
 
 namespace Waxwink\Orbis\ControllerCaller;
 
+use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Waxwink\Orbis\Contracts\ContainerInterface;
 use Waxwink\Orbis\Router\RouteResolved;
 
 class CallController
 {
-    public function __construct(protected ContainerInterface $container)
+    public function __construct(protected ContainerInterface $container, protected EventDispatcherInterface $eventDispatcher)
     {
     }
 
@@ -24,7 +25,15 @@ class CallController
                 $exception->getMessage()
             ));
         }
-        $result = $this->container->call($controller, $method);
+
+        $this->eventDispatcher->dispatch(new ControllerProcessing($event->route, $controller, $method));
+
+        $controllerProcessed = new ControllerProcessed(
+            $this->container->call($controller, $method),
+            $controller);
+        $this->eventDispatcher->dispatch($controllerProcessed);
+
+        $result = $controllerProcessed->result;
 
         if ($result instanceof Response) {
             $event->requestResponse->response = $result;
