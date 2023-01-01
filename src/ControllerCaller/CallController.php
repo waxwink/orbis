@@ -37,7 +37,7 @@ class CallController
             $response->setContent($result)->setStatusCode(200);
             $response->headers->set('Content-Type', 'text/html');
         } else {
-            throw new ControllerException(sprintf("Controller %s::%s is not returning a valid output to be rendered", get_class($controller), $method));
+            throw new ControllerException(sprintf("Controller %s::%s is not returning a valid output to be rendered", $controller, $method));
         }
     }
 }
