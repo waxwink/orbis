@@ -51,7 +51,7 @@ class Application
 
     protected function makeContainer(): ContainerInterface
     {
-        return new Container();
+        return Container::getInstance();
     }
 
     protected function makeKernelManager($arguments): KernelManager

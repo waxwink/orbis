@@ -3,7 +3,6 @@
 namespace Waxwink\Orbis\Application;
 
 use Waxwink\Orbis\Contracts\Bootable;
-use Waxwink\Orbis\Contracts\ExceptionHandlerInterface;
 
 class KernelManager
 {

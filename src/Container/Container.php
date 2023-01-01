@@ -2,12 +2,16 @@
 
 namespace Waxwink\Orbis\Container;
 
-use http\Exception\RuntimeException;
 use Waxwink\Orbis\Contracts\ContainerInterface;
 
 class Container implements ContainerInterface
 {
+    private static $instance;
     protected $registered = [];
+
+    protected function __construct()
+    {
+    }
 
     public function get(string $id)
     {
@@ -117,5 +121,17 @@ class Container implements ContainerInterface
     {
         $this->set($id, $entity = $callable(...$this->inputParameters((new \ReflectionFunction($callable))->getParameters())));
         return $entity;
+    }
+
+    /**
+     * Get the globally available instance of the container.
+     */
+    public static function getInstance(): static
+    {
+        if (is_null(static::$instance)) {
+            static::$instance = new static;
+        }
+
+        return static::$instance;
     }
 }
