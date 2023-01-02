@@ -7,6 +7,7 @@ use Waxwink\Orbis\CommonCommands\CommonCommandsProvider;
 use Waxwink\Orbis\Configuration\ConfigurationProvider;
 use Waxwink\Orbis\Console\CommandContainerProvider;
 use Waxwink\Orbis\ControllerCaller\ControllerCallerProvider;
+use Waxwink\Orbis\Database\RedBeanProvider;
 use Waxwink\Orbis\EventDispatcher\EventDispatcherProvider;
 use Waxwink\Orbis\Framework\Console\ConsoleKernel;
 use Waxwink\Orbis\Framework\Console\ExceptionHandler as ConsoleExceptionHandlerAlias;
@@ -30,7 +31,8 @@ class OrbisKernelManager extends KernelManager
         EventDispatcherProvider::class,
         LoggerProvider::class,
         RouterProvider::class,
-        ControllerCallerProvider::class
+        ControllerCallerProvider::class,
+        RedBeanProvider::class
     ];
 
     protected $exceptionHandlers = [

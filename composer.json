@@ -30,6 +30,7 @@
     "symfony/http-foundation": "^6.2",
     "psr/http-server-handler": "^1.0",
     "league/climate": "^3.8",
-    "symfony/routing": "^6.2"
+    "symfony/routing": "^6.2",
+    "gabordemooij/redbean": "^5.7"
   }
 }
