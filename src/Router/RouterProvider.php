@@ -21,8 +21,7 @@ class RouterProvider implements Bootable
         protected ContainerInterface       $container,
         protected ConfigurationInterface   $configuration,
         protected EventDispatcherInterface $eventDispatcher
-    )
-    {
+    ) {
     }
 
 
@@ -44,7 +43,7 @@ class RouterProvider implements Bootable
 
         $routes = $this->configuration->get('routes.routes');
 
-        $this->registerRoutes($routes, $routeCollection);
+        $routes && $this->registerRoutes($routes, $routeCollection);
 
         $this->eventDispatcher->addListener(RequestResponse::class, RouterListener::class);
     }
@@ -52,7 +51,7 @@ class RouterProvider implements Bootable
     /**
      * @throws RouterException
      */
-    private function registerRoutes($routes, RouteCollection $routeCollection): void
+    private function registerRoutes(array $routes, RouteCollection $routeCollection): void
     {
         foreach ($routes as $key => $route) {
             if (!$route instanceof Route) {

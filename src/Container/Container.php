@@ -68,7 +68,14 @@ class Container implements ContainerInterface
         }
         $class = $parameter->getType()?->getName();
         if ($class && !in_array($class, ["bool", "string", "array", "mixed", "int", "object", "callable"])) {
-            return $this->get($class);
+            try {
+                return $this->get($class);
+            } catch (EntityNotFound $exception) {
+                if ($parameter->isDefaultValueAvailable()) {
+                    return $parameter->getDefaultValue();
+                }
+                throw $exception;
+            }
         }
 
         if ($parameter->isDefaultValueAvailable()) {
