@@ -13,6 +13,4 @@ class ControllerProcessed
         $this->result = $result;
         $this->controller = $controller;
     }
-
-
 }

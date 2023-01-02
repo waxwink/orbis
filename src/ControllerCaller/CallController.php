@@ -5,6 +5,8 @@ namespace Waxwink\Orbis\ControllerCaller;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Waxwink\Orbis\Contracts\ContainerInterface;
+use Waxwink\Orbis\ControllerCaller\Events\ControllerProcessed;
+use Waxwink\Orbis\ControllerCaller\Events\ControllerProcessing;
 use Waxwink\Orbis\Router\RouteResolved;
 
 class CallController
@@ -30,7 +32,8 @@ class CallController
 
         $controllerProcessed = new ControllerProcessed(
             $this->container->call($controller, $method),
-            $controller);
+            $controller
+        );
         $this->eventDispatcher->dispatch($controllerProcessed);
 
         $result = $controllerProcessed->result;

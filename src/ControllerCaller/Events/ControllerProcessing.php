@@ -21,6 +21,4 @@ class ControllerProcessing
         $this->controller = $controller;
         $this->method = $method;
     }
-
-
 }
