@@ -14,6 +14,7 @@ use Waxwink\Orbis\Framework\Console\ExceptionHandler as ConsoleExceptionHandlerA
 use Waxwink\Orbis\Framework\Http\ExceptionHandler as HttpExceptionHandler;
 use Waxwink\Orbis\Framework\Http\HttpKernel;
 use Waxwink\Orbis\Logger\LoggerProvider;
+use Waxwink\Orbis\Queue\QueueProvider;
 use Waxwink\Orbis\Router\RouterProvider;
 
 class OrbisKernelManager extends KernelManager
@@ -43,7 +44,8 @@ class OrbisKernelManager extends KernelManager
     protected $modeProviders = [
         'console' => [
             CommandContainerProvider::class,
-            CommonCommandsProvider::class
+            CommonCommandsProvider::class,
+            QueueProvider::class
         ]
     ];
 }
